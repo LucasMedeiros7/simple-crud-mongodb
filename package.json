@@ -9,7 +9,8 @@
     "start": "node ./dist/src/server.js",
     "dev": "ts-node src/server.ts",
     "dev:watch": "nodemon src -e ts,json --exec 'npm run dev'",
-    "lint": "eslint src --fix"
+    "lint": "eslint src --fix",
+    "service:up": "docker-compose up -d && npm run dev:watch"
   },
   "keywords": [],
   "author": "",

@@ -18,4 +18,4 @@ const bookSchema = new Schema<IBook>({
 
 const Books = model<IBook>('books', bookSchema)
 
-export { Books }
+export { Books, type IBook }
