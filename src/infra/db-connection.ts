@@ -1,14 +1,35 @@
 import mongoose from 'mongoose'
+import { DATABASE_URL } from '../config/env'
 
-mongoose
-  .connect('mongodb://admin:example@localhost:27017/')
-  .then(() => {
-    console.log('Connected!')
-  })
-  .catch(err => {
-    console.log('Error', err)
-  })
+export const connectDB = async (): Promise<void> => {
+  try {
+    await mongoose.connect(DATABASE_URL)
+  } catch (error) {
+    console.error('Connection to database failed!')
+    console.error(error)
+  }
+}
 
-const mongoConnection = mongoose.connection
+// Tratamento de erros de conexão com o MongoDB
+mongoose.connection.on('error', (error) => {
+  console.error('Connection to MongoDB failed!')
+  console.error(error)
+})
 
-export { mongoConnection }
+// Fechamento da conexão com o MongoDB
+process.on('SIGINT', async () => {
+  try {
+    await mongoose.connection.close()
+    console.log('\nConnection to MongoDB closed!')
+    process.exit(0)
+  } catch (error) {
+    console.error('Failed to close connection to MongoDB!')
+    console.error(error)
+    process.exit(1)
+  }
+})
+
+// Verificação de conexão com o MongoDB
+mongoose.connection.once('open', () => {
+  console.log('Connected to database!')
+})
