@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rimraf ./dist",
     "build": "npm-run-all lint clean && tsc",
-    "start": "node ./dist/src/server.js",
+    "start": "node ./dist/server.js",
     "dev": "ts-node src/server.ts",
     "dev:watch": "nodemon src -e ts,json --exec 'npm run dev'",
     "lint": "eslint src --fix",
