@@ -9,6 +9,7 @@ const bookControllerFactory = (method: string) => {
   return (req: Request, res: Response) => bookController[method](req, res)
 }
 booksRouter.get('/', bookControllerFactory('list'))
+booksRouter.get('/:id', bookControllerFactory('listById'))
 booksRouter.post('/', bookControllerFactory('create'))
 booksRouter.put('/:id', bookControllerFactory('update'))
 

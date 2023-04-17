@@ -16,6 +16,16 @@ export class BookController {
     return response.json(books)
   }
 
+  async listById (request: Request, response: Response): Promise<Response> {
+    const { id } = request.params
+    try {
+      const book = await this.bookService.findById(id)
+      return response.json(book)
+    } catch (error) {
+      return response.status(400).json({ message: 'Livro não encontrado', error: error.message })
+    }
+  }
+
   async create (request: Request, response: Response): Promise<Response> {
     const { title, author, publisher, pages } = request.body as BookRequest
     try {

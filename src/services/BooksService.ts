@@ -18,6 +18,10 @@ export class BooksService {
     return await Book.find()
   }
 
+  async findById (id: string): Promise<IBook> {
+    return await Book.findById({ _id: id })
+  }
+
   async create ({
     title,
     author,
