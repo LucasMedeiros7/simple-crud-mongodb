@@ -1,7 +1,7 @@
 import { type Request, type Response } from 'express'
 import { type BooksService } from '../services/BooksService'
 
-interface CreateBookRequest {
+interface BookRequest {
   title: string
   author: string
   publisher: string
@@ -17,12 +17,23 @@ export class BookController {
   }
 
   async create (request: Request, response: Response): Promise<Response> {
-    const { title, author, publisher, pages } = request.body as CreateBookRequest
+    const { title, author, publisher, pages } = request.body as BookRequest
     try {
       const newBook = await this.bookService.create({ title, author, publisher, pages })
       return response.status(201).json(newBook.toJSON())
     } catch (error) {
       return response.status(500).json({ message: 'Falha ao cadastrar o Livro', error: error.message })
+    }
+  }
+
+  async update (request: Request, response: Response): Promise<Response> {
+    const { id } = request.params
+    const { title, publisher, pages } = request.body as BookRequest
+    try {
+      await this.bookService.update(id, { title, publisher, pages })
+      return response.json({ message: 'Livro atualizado com sucesso' })
+    } catch (error) {
+      return response.status(500).json({ message: 'Falha ao atualizar o Livro', error: error.message })
     }
   }
 }
