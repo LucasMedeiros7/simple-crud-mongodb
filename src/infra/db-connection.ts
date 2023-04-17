@@ -10,13 +10,11 @@ export const connectDB = async (): Promise<void> => {
   }
 }
 
-// Tratamento de erros de conexão com o MongoDB
 mongoose.connection.on('error', (error) => {
   console.error('Connection to MongoDB failed!')
   console.error(error)
 })
 
-// Fechamento da conexão com o MongoDB
 process.on('SIGINT', async () => {
   try {
     await mongoose.connection.close()
@@ -29,7 +27,6 @@ process.on('SIGINT', async () => {
   }
 })
 
-// Verificação de conexão com o MongoDB
 mongoose.connection.once('open', () => {
   console.log('Connected to database!')
 })

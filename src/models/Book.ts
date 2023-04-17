@@ -9,13 +9,13 @@ interface IBook extends Document {
 }
 
 const bookSchema = new Schema<IBook>({
-  id: { type: String },
+  id: String,
   title: { type: String, required: true },
   author: { type: String, required: true },
   publisher: { type: String, required: true },
-  pages: { type: Number }
+  pages: Number
 })
 
-const Books = model<IBook>('books', bookSchema)
+const Book = model<IBook>('books', bookSchema)
 
-export { Books, type IBook }
+export { Book, type IBook }

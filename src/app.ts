@@ -4,7 +4,7 @@ import { connectDB } from './infra/db-connection'
 
 const app = express()
 
-void connectDB()
+connectDB()
 
 app.use(express.json())
 app.use(routes)

@@ -1,9 +1,16 @@
-import { Router } from 'express'
-import { BooksController } from '../controllers/BooksController'
+import { Router, type Request, type Response } from 'express'
+import { BookController } from '../controllers/BookController'
+import { BooksService } from '../services/BooksService'
 
 const booksRouter = Router()
-const booksController = new BooksController()
+const bookService = new BooksService()
+const bookController = new BookController(bookService)
 
-booksRouter.get('/', booksController.list)
+const bookControllerFactory = (method: string) => {
+  return (req: Request, res: Response) => bookController[method](req, res)
+}
+
+booksRouter.get('/', bookControllerFactory('list'))
+booksRouter.post('/', bookControllerFactory('create'))
 
 export { booksRouter }
