@@ -12,5 +12,6 @@ booksRouter.get('/', bookControllerFactory('list'))
 booksRouter.get('/:id', bookControllerFactory('listById'))
 booksRouter.post('/', bookControllerFactory('create'))
 booksRouter.put('/:id', bookControllerFactory('update'))
+booksRouter.delete('/:id', bookControllerFactory('delete'))
 
 export { booksRouter }

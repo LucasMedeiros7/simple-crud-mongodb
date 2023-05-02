@@ -20,6 +20,9 @@ export class BookController {
     const { id } = request.params
     try {
       const book = await this.bookService.findById(id)
+      if (!book) {
+        return response.status(400).json({ message: 'Livro não encontrado' })
+      }
       return response.json(book)
     } catch (error) {
       return response.status(400).json({ message: 'Livro não encontrado', error: error.message })
@@ -38,10 +41,20 @@ export class BookController {
 
   async update (request: Request, response: Response): Promise<Response> {
     const { id } = request.params
-    const { title, publisher, pages } = request.body as BookRequest
+    const { title, publisher, pages, author } = request.body as BookRequest
     try {
-      await this.bookService.update(id, { title, publisher, pages })
+      await this.bookService.update(id, { title, publisher, pages, author })
       return response.json({ message: 'Livro atualizado com sucesso' })
+    } catch (error) {
+      return response.status(500).json({ message: 'Falha ao atualizar o Livro', error: error.message })
+    }
+  }
+
+  async delete (request: Request, response: Response): Promise<Response> {
+    const { id } = request.params
+    try {
+      await this.bookService.delete(id)
+      return response.json({ message: 'Livro removido com sucesso' })
     } catch (error) {
       return response.status(500).json({ message: 'Falha ao atualizar o Livro', error: error.message })
     }

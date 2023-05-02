@@ -1,14 +1,8 @@
 import { Book, type IBook } from '../models/Book'
 
-interface CreateBookDTO {
+interface BookDTO {
   title: string
   author: string
-  publisher: string
-  pages: number
-}
-
-interface UpdateBookDTO {
-  title: string
   publisher: string
   pages: number
 }
@@ -22,23 +16,22 @@ export class BooksService {
     return await Book.findById({ _id: id })
   }
 
-  async create ({
-    title,
-    author,
-    publisher,
-    pages
-  }: CreateBookDTO): Promise<IBook> {
+  async create ({ title, author, publisher, pages }: BookDTO): Promise<IBook> {
     const newBook = new Book({ title, author, publisher, pages })
     return await newBook.save()
   }
 
-  async update (id: string, { title, publisher, pages }: UpdateBookDTO): Promise<void> {
+  async update (id: string, { title, publisher, pages, author }: BookDTO): Promise<void> {
     const properties = {}
-    for (const [key, value] of Object.entries({ title, publisher, pages })) {
+    for (const [key, value] of Object.entries({ title, publisher, pages, author })) {
       if (value) {
         properties[key] = Number(value) || value
       }
     }
-    await Book.findOneAndUpdate({ _id: id }, { $set: properties })
+    await Book.findByIdAndUpdate(id, { $set: properties })
+  }
+
+  async delete (id: string): Promise<void> {
+    await Book.findByIdAndDelete(id)
   }
 }
